@@ -10,16 +10,7 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-resource "azurerm_public_ip" "pi" {
-  name                = "acceptanceTestPublicIp1"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  allocation_method   = "Static"
 
-  tags = {
-    environment = "Production"
-  }
-}
 
 resource "azurerm_linux_virtual_machine" "example" {
   name                = "pankaj-vm"
