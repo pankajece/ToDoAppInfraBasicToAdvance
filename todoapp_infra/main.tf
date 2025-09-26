@@ -113,8 +113,10 @@ module "sql_server" {
   depends_on = [ module.resource_group ]
 }
 
-# module "sql_db" {
-#   source = "../modules/azurerm_sql_database"
-#   sql_database_name = "sql_db"
-#   sql_server_id = ""
-# }
+module "sql_db" {
+  source = "../modules/azurerm_sql_database"
+  sql_database_name = "todo-sql-db"
+  sql_server_name = "sqlservertodoapp"
+  resouce_group_name = "rg-todoapp"
+  depends_on = [ module.sql_server ]
+}
