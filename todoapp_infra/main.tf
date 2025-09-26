@@ -30,3 +30,11 @@ module "frontend_backend" {
   address_prefixes = ["10.0.2.0/24"]
   depends_on = [ module.virtual_network ]
 }
+
+module "public_ip" {
+  source = "../modules/azurerm_public_ip"
+  pan_public_ip_name = "todo-public-ip"
+  resource_group_name = "rg-todoapp"
+  location = "centralindia"
+  allocation_method = "Static"
+}
