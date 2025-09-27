@@ -19,13 +19,7 @@ variable "vm_name" {
 variable "vm_size" {
   type = string
 }
-variable "admin_username" {
-  type = string
-}
 
-variable "admin_password" {
-  type = string
-}
 
 variable "image_publisher" {
   type = string

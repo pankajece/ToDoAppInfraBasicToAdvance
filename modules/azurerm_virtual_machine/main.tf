@@ -42,5 +42,15 @@ resource "azurerm_linux_virtual_machine" "pan_vm" {
     sku       = var.image_sku # plan id form makret plance 
     version   = var.image_version 
   }
+
+  custom_data = base64encode(<<-EOF
+     #!/bin/bash
+     apt-get update
+     apt-get install -y nginx
+     systemctl start nginx
+     systemctl enable nginx
+     echo "<h1>Welcome to Nginx via Terraform!</h1>" | sudo tee /var/www/html/index.html
+  EOF
+  )
 }
 

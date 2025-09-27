@@ -22,14 +22,14 @@ module "frontend_subnet" {
   depends_on = [ module.virtual_network ]
 }
 
-module "backend_subnet" {
-  source = "../modules/azurerm_subnet"
-  subnet_name = "backemd-subnet"
-  resouce_group_name = "rg-todoapp"
-  virtual_network_name = "vnet-todoapp"
-  address_prefixes = ["10.0.2.0/24"]
-  depends_on = [ module.virtual_network ]
-}
+# module "backend_subnet" {
+#   source = "../modules/azurerm_subnet"
+#   subnet_name = "backemd-subnet"
+#   resouce_group_name = "rg-todoapp"
+#   virtual_network_name = "vnet-todoapp"
+#   address_prefixes = ["10.0.2.0/24"]
+#   depends_on = [ module.virtual_network ]
+# }
 
 module "public_ip_frontend" {
   source = "../modules/azurerm_public_ip"
@@ -40,14 +40,14 @@ module "public_ip_frontend" {
   depends_on = [ module.resource_group ]
 }
 
-module "public_ip_backend" {
-  source = "../modules/azurerm_public_ip"
-  pan_public_ip_name = "todo-public-ip-backend"
-  resource_group_name = "rg-todoapp"
-  location = "Japan East"
-  allocation_method = "Static"
-  depends_on = [ module.resource_group ]
-}
+# module "public_ip_backend" {
+#   source = "../modules/azurerm_public_ip"
+#   pan_public_ip_name = "todo-public-ip-backend"
+#   resource_group_name = "rg-todoapp"
+#   location = "Japan East"
+#   allocation_method = "Static"
+#   depends_on = [ module.resource_group ]
+# }
 
 module "frontend_vm" {
   source = "../modules/azurerm_virtual_machine"
@@ -62,8 +62,7 @@ module "frontend_vm" {
 //for virtual machine
   vm_name = "vmfrontend"
   vm_size = "Standard_D2s_v3"
-  admin_username = "pankaj-admin-front"
-  admin_password = "Pankaj@6220"
+  
   image_publisher = "Canonical"
   image_offer = "0001-com-ubuntu-server-focal"
   image_sku = "20_04-lts"
@@ -76,32 +75,31 @@ module "frontend_vm" {
 
 }
 
-module "backend_vm" {
-  source = "../modules/azurerm_virtual_machine"
+# module "backend_vm" {
+#   source = "../modules/azurerm_virtual_machine"
 
-  //for nic resouce
-  nic_name = "backend_nic"
+#   //for nic resouce
+#   nic_name = "backend_nic"
   
 
-  //common in resource
-  resource_group_name = "rg-todoapp"
-  location = "Japan East"
+#   //common in resource
+#   resource_group_name = "rg-todoapp"
+#   location = "Japan East"
   
   
-  vm_name = "vm-backend"
-  vm_size = "Standard_D2s_v3"
-  admin_username = "pankaj-admin-back"
-  admin_password = "Pankaj@6220"
-  image_publisher = "Canonical"
-  image_offer = "0001-com-ubuntu-server-focal"
-  image_sku = "20_04-lts"
-  image_version = "latest"
-  depends_on = [ module.backend_subnet ]
-  virtual_network_name = "vnet-todoapp"
-  subnet_name = "backemd-subnet"
-pip_name = "todo-public-ip-backend"
+#   vm_name = "vm-backend"
+#   vm_size = "Standard_D2s_v3"
+  
+#   image_publisher = "Canonical"
+#   image_offer = "0001-com-ubuntu-server-focal"
+#   image_sku = "20_04-lts"
+#   image_version = "latest"
+#   depends_on = [ module.backend_subnet ]
+#   virtual_network_name = "vnet-todoapp"
+#   subnet_name = "backemd-subnet"
+#   pip_name = "todo-public-ip-backend"
 
-}
+# }
 
 module "sql_server" {
   source = "../modules/azurerm_sql_server"

@@ -16,7 +16,6 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = "RG-Logic-App"
 }
 
-
 data "azurerm_key_vault_secret" "vm_password" {
     name = "frontend-vm-password"
     key_vault_id = data.azurerm_key_vault.kv.id
