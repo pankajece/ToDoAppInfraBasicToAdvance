@@ -127,6 +127,7 @@ module "sql_db" {
 
 module "keyvault" {
   source = "../modules/azurerm_key_vault"
+  depends_on = [ module.resource_group ]
   todo_key_vault_name = "todo-new-keyvalut"
   location = "Japan East"
   resouce_group_name = "rg-todoapp"
