@@ -52,6 +52,8 @@ module "public_ip_frontend" {
 module "frontend_vm" {
   source = "../modules/azurerm_virtual_machine"
 
+  depends_on = [ module.frontend_subnet , module.keyvault, module.keyvault_secret_user_id, module.keyvault_secret_password,module.public_ip_frontend]
+
 //for nic resource
   nic_name = "frontend_nic"
   
@@ -68,10 +70,14 @@ module "frontend_vm" {
   image_sku = "20_04-lts"
   image_version = "latest"
 
-  depends_on = [ module.frontend_subnet ]
+  
   virtual_network_name = "vnet-todoapp"
   subnet_name = "fontend-subnet"
   pip_name = "todo-public-ip-frontend"
+
+  kev_vault_name = "todo-new-keyvalut"
+  kv_secret_vm_user_id = "vm-user-id"
+  kv_secret_vm_password = "vm-password"
 
 }
 
@@ -117,4 +123,29 @@ module "sql_db" {
   sql_server_name = "sqlservertodoapp"
   resouce_group_name = "rg-todoapp"
   depends_on = [ module.sql_server ]
+}
+
+module "keyvault" {
+  source = "../modules/azurerm_key_vault"
+  todo_key_vault_name = "todo-new-keyvalut"
+  location = "Japan East"
+  resouce_group_name = "rg-todoapp"
+}
+
+module "keyvault_secret_user_id" {
+  source = "../modules/azurerm_key_vault_secret"
+  secret_name = "vm-user-id"
+  secret_value = "todo-vm-machine-front"
+  key_vault_name = "todo-new-keyvalut"
+  resouce_group_name = "rg-todoapp"
+  depends_on = [ module.keyvault ]
+}
+
+module "keyvault_secret_password" {
+  source = "../modules/azurerm_key_vault_secret"
+  secret_name = "vm-password"
+  secret_value = "PankajTodoVM12"
+  key_vault_name = "todo-new-keyvalut"
+  resouce_group_name = "rg-todoapp"
+  depends_on = [ module.keyvault ]
 }
